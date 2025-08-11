@@ -23,7 +23,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter @Setter
-public class user {
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -59,7 +59,7 @@ public class user {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		user other = (user) obj;
+		User other = (User) obj;
 		return Objects.equals(id, other.id);
 	}
 
