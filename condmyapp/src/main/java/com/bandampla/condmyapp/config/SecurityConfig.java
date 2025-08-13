@@ -11,6 +11,9 @@ import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 import com.bandampla.condmyapp.service.CustomUserDetailsService;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
+
 
 @Configuration
 @EnableWebSecurity
@@ -22,30 +25,69 @@ public class SecurityConfig {
 		this.customUserDetailsService = customUserDetailsService;
 	}
 
-	@Bean
-	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    @Bean
+    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http
+            // Proteção CSRF com Cookie acessível via JS
+            .csrf(csrf -> csrf
+                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+            )
 
-		http
-		.csrf(csrf -> csrf
-				.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()) // Salva o token em cookie acessível via JS
-				)
-		.authorizeHttpRequests(auth -> auth
-				.requestMatchers("/login")
-				.permitAll()
-				.anyRequest()
-				.authenticated())
-		.formLogin(form -> form
-				.loginPage("/login")
-				.loginProcessingUrl("/login")
-				.defaultSuccessUrl("/welcome", true)
-				.failureUrl("/login?error=true")
-				.permitAll())
-		.logout(logout -> logout
-				.logoutSuccessUrl("/logout")
-				.permitAll())
-		.userDetailsService(customUserDetailsService);
-		return http.build();
-	}
+            // Cabeçalhos de segurança
+            .headers(headers -> headers
+                .frameOptions().sameOrigin()
+                .contentSecurityPolicy(csp -> csp.policyDirectives("default-src 'self'"))
+            )
+
+            // Controle de sessão
+            .sessionManagement(session -> session
+                .invalidSessionUrl("/login?expired=true")
+                .maximumSessions(1)
+                .expiredUrl("/login?expired=true")
+                .maxSessionsPreventsLogin(false)
+                .and()
+                .sessionFixation().migrateSession()
+            )
+
+            // Permissões
+            .authorizeHttpRequests(auth -> auth
+                .requestMatchers("/login", "/logout", "/css/**", "/js/**", "/favicon.ico").permitAll()
+                .anyRequest().authenticated()
+            )
+
+            // Login
+            .formLogin(form -> form
+                .loginPage("/login")
+                .loginProcessingUrl("/login")
+                .defaultSuccessUrl("/welcome", true)
+                .failureUrl("/login?error=true")
+                .permitAll()
+            )
+
+            // Logout com limpeza de cookies
+            .logout(logout -> logout
+                .logoutUrl("/logout")
+                .logoutSuccessHandler((request, response, authentication) -> {
+                    clearCookie(response, "JSESSIONID");
+                    clearCookie(response, "XSRF-TOKEN");
+                    request.getSession().invalidate();
+                    response.sendRedirect("/login?logout=true");
+                })
+                .permitAll()
+            )
+
+            // Serviço de autenticação
+            .userDetailsService(customUserDetailsService);
+
+        return http.build();
+    }
+
+    private void clearCookie(HttpServletResponse response, String name) {
+        Cookie cookie = new Cookie(name, "");
+        cookie.setMaxAge(0);
+        cookie.setPath("/");
+        response.addCookie(cookie);
+    }
 
 	@Bean
 	PasswordEncoder passwordEncoder() {
