@@ -18,7 +18,7 @@ INSERT INTO users (id, username, email, password, enum_group, enum_status, creat
 VALUES
 (1, 'admin', 'joao@email.com', '$2a$10$W/ZfE6I40ZASwkC1kMir2ORjfcNdo3./N4nH9Eeun1r4dZIka0mUq', 'ADMINISTRADOR','ATIVO',  NOW(), NOW()),
 (2, 'maria_user', 'maria@email.com', '$2a$10$W/ZfE6I40ZASwkC1kMir2ORjfcNdo3./N4nH9Eeun1r4dZIka0mUq', 'TERCEIRIZADA','BLOQUEADO',  NOW(), NOW()),
-(3, 'carlos_admin', 'carlos@email.com', '$2a$10$W/ZfE6I40ZASwkC1kMir2ORjfcNdo3./N4nH9Eeun1r4dZIka0mUq', 'ADMINISTRADOR','ATIVO',  NOW(), NOW()),
+(3, 'carlos_admin', 'carlos@email.com', '$2a$10$W/ZfE6I40ZASwkC1kMir2ORjfcNdo3./N4nH9Eeun1r4dZIka0mUq', 'PROPRIETARIO','ATIVO',  NOW(), NOW()),
 (4, 'ana_user', 'ana@email.com', '$2a$10$W/ZfE6I40ZASwkC1kMir2ORjfcNdo3./N4nH9Eeun1r4dZIka0mUq','GERENTE', 'INATIVO',  NOW(), NOW()),
 (5, 'pedro_admin', 'pedro@email.com', '$2a$10$W/ZfE6I40ZASwkC1kMir2ORjfcNdo3./N4nH9Eeun1r4dZIka0mUq','ADMINISTRADOR','INATIVO',   NOW(), NOW()),
 (6, 'julia_user', 'julia@email.com', '$2a$10$W/ZfE6I40ZASwkC1kMir2ORjfcNdo3./N4nH9Eeun1r4dZIka0mUq','FORNECEDOR', 'BLOQUEADO',   NOW(), NOW());

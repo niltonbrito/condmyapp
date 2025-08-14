@@ -5,10 +5,11 @@
 
 	<!-- Page Heading -->
 	<div class="d-sm-flex align-items-center justify-content-between mb-4">
-		<h1 class="h3 mb-0 text-gray-800">
-			Olá - <span th:text="${userName}"></span>, Seja bem vindo a sua área
-			adminitrativa
-		</h1>
+		 <h1 class="h3 mb-0 text-gray-800">
+            Olá, 
+            <span th:text="${#authentication.principal.fullName}"></span>!
+            Seja bem-vindo à sua área administrativa.
+        </h1>
 	</div>
 
 	<div id="carouselExampleIndicators" class="carousel slide"
