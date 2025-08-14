@@ -1,0 +1,114 @@
+<div th:replace="~{fragments/header}"></div>
+
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+	<!-- Page Heading -->
+	<h1 class="h3 mb-2 text-gray-800">Adminitradores</h1>
+	<p class="mb-4">
+		Lista de administradores do sistema <a target="_blank" href="#">official
+			DataTables documentation</a>.
+	</p>
+	<!-- DataTales Example -->
+	<div class="card shadow mb-4">
+		<div class="card-header d-flex py-3">
+			<div class="col-4">
+				<a type="button"
+					sec:authorize="hasAnyAuthority('ADMIN','GERENTE')"
+					href="user/new" class="btn btn-primary"
+					style="margin-bottom: 20px;">Cadastrar Novo</a>
+				<h6 class="m-0 font-weight-bold text-primary">Lista de Usuários</h6>
+			</div>
+			<div class="col-8 text-right">
+				<!-- Topbar Search -->
+				<form
+					class="d-none border rounded d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+					<div class="input-group">
+						<input type="text" class="form-control bg-light border-0 small"
+							id="searchInput" name="searchInput" placeholder="Pesquisar..."
+							aria-label="Search" aria-describedby="basic-addon2">
+						<div class="input-group-append">
+							<button class="btn btn-primary" type="button">
+								<i class="fas fa-search fa-sm"></i>
+							</button>
+						</div>
+					</div>
+				</form>
+
+			</div>
+		</div>
+		<div class="card-body">
+			<div class="table-responsive">
+				<table class="table table-sm table-bordered " id="dataTable" width="100%" cellspacing="0">
+					<thead class="thead-light text-center">
+						<tr>
+							<th>ID</th>
+							<th>Nome</th>
+							<th>E-mail</th>
+							<th>Username</th>
+							<th>Status</th>
+							<th>Grupo</th>
+							<th>Data Criação</th>
+							<th>Ações</th>
+						</tr>
+					</thead>
+					<tbody class="thead-light">
+						<tr th:each="user : ${users}">
+							<td th:text="${user.id}" class="text-center"></td>
+							<td th:text="${user.firstName + ' ' + user.lastName}"></td>
+							<td th:text="${user.email}" class="text-center"></td>
+							<td th:text="${user.username}" class="text-center"></td>
+							<td th:text="${user.status}" class="text-center"></td>
+							<td th:text="${user.group}" class="text-center"></td>
+							<td th:text="${#temporals.format(user.createdAt, 'dd/MM/yyyy HH:mm:ss')}" class="text-center"></td>
+							<td class="text-center">
+								<div class="btn-group" role="group">
+									<!-- Botão Alterar (ADMINISTRADOR ou GERENTE) -->
+									<a type="button"
+										class="btn btn-outline-warning border-0 rounded"
+										fill="currentColor" data-bs-toggle="tooltip"
+										data-bs-placement="top" data-bs-title="Alterar"
+										sec:authorize="hasAnyAuthority('ADMINISTRADOR','GERENTE')"
+										th:href="@{'/user/' + ${user.id}}"> <img
+										src="/img/icon_edit.png" width="20" height="20"
+										viewBox="0 0 20 20">
+									</a>
+									<!-- Botão Excluir (apenas ADMINISTRADOR) -->
+									<a type="button"
+										class="btn btn-outline-danger border-0 rounded"
+										fill="currentColor" data-bs-toggle="tooltip"
+										data-bs-placement="top" data-bs-custom-class="custom-tooltip"
+										data-bs-title="Deletar"
+										sec:authorize="hasAnyAuthority('ADMINISTRADOR')"
+										th:onclick="'if(confirm(\'Confirma a exclusão do usuário?\')) {window.location.href = \'' + @{/user/{id}/delete(id=${user.id})} + '\'}'"
+										href="#"> <img src="/img/icon_delete.png" width="20"
+										height="20" viewBox="0 0 20 20">
+									</a>
+									<!-- Botão Desbloquear (apenas ADMINISTRADOR e se bloqueadoTentativas == true) -->
+									<a type="button"
+									   class="btn btn-outline-secondary border-0 rounded"
+									   data-bs-toggle="tooltip"
+									   data-bs-placement="top"
+									   data-bs-custom-class="custom-tooltip"
+									   data-bs-title="Desbloquear"
+									   sec:authorize="hasAuthority('ADMINISTRADOR')"
+									   th:if="${user.status.name() == 'BLOQUEADO'}"
+									   th:onclick="'if(confirm(\'Usuário desbloqueado com sucesso!\')) {window.location.href = \'' + @{/user/{id}/desbloquear(id=${user.id})} + '\'}'"
+									   href="#">
+									   <img src="/img/lock_icon.png" width="20" height="20" viewBox="0 0 20 20">
+									</a>
+
+
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+
+			</div>
+		</div>
+	</div>
+
+</div>
+<!-- /.container-fluid -->
+<div th:replace="~{fragments/footer}"></div>

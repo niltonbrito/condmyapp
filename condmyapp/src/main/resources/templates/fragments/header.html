@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<html lang="pt-br">
 
 <head>
 <meta charset="utf-8">
@@ -34,7 +34,8 @@
 			id="accordionSidebar">
 
 			<!-- Logo -->
-			<a	class="sidebar-brand d-flex align-items-center justify-content-center"
+			<a
+				class="sidebar-brand d-flex align-items-center justify-content-center"
 				href="/home">
 				<div class="sidebar-brand-icon rotate-n-15">
 					<i class="fas fa-laugh-wink"></i>
@@ -55,31 +56,30 @@
 			<div class="sidebar-heading">Interface</div>
 
 			<!-- Menu: Administradores -->
-			<li class="nav-item" th:if="${userGroup == 'ADMIN'}"><a
+			<li class="nav-item" sec:authorize="hasAuthority('ADMINISTRADOR')"><a
 				class="nav-link" href="/user"> <i
 					class="fas fa-fw fa-user-shield"></i> <span>Administradores</span>
 			</a></li>
 
 			<!-- Menu: Gerente -->
 			<li class="nav-item"
-				th:if="${userGroup == 'ADMIN' }">
+				 sec:authorize="hasAnyAuthority('ADMINISTRADOR','GERENTE')">
 				<a class="nav-link" href="/relatorios"> <i
 					class="fas fa-fw fa-chart-bar"></i> <span>Relatórios</span>
 			</a>
 			</li>
 
 			<!-- Menu: Usuário comum -->
-			<li class="nav-item" th:if="${userGroup != null}"><a
+			<li class="nav-item"  sec:authorize="isAuthenticated()"><a
 				class="nav-link" href="/meus-dados"> <i
 					class="fas fa-fw fa-user"></i> <span>Meus Dados</span>
 			</a></li>
 
 			<li class="nav-item"><a
-				th:if="${userGroup == 'ADMIN' }"
+				sec:authorize="hasAnyAuthority('ADMINISTRADOR','GERENTE')"
 				class="nav-link" href="/user"> <i class="fas fa-fw fa-table"></i>
 					<span>Menu teste de Gerente</span></a>
-			<li class="nav-item"><a class="nav-link
-			" href="/user">
+			<li class="nav-item"><a class="nav-link " sec:authorize="isAuthenticated()" href="/user">
 					<i class="fas fa-fw fa-table"></i> <span>Menu teste de
 						usuario</span>
 			</a></li>
@@ -119,7 +119,7 @@
 							role="button" data-toggle="dropdown" aria-haspopup="true"
 							aria-expanded="false"> <span
 								class="mr-2 d-none d-lg-inline text-gray-600 small"
-								th:text="${userName}">Usuário</span> <img
+								sec:authentication="principal.fullName">Usuário</span> <img
 								class="img-profile rounded-circle" src="/img/undraw_profile.svg">
 						</a> <!-- Menu do usuário -->
 							<div
