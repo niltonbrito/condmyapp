@@ -83,5 +83,4 @@ public class User extends Person {
 	public void setUpdatedAt(LocalDateTime updatedAt) {
 		this.updatedAt = updatedAt;
 	}
-
 }

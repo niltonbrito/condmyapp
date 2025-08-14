@@ -51,7 +51,14 @@ public class SecurityConfig {
 
             // Permissões
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/login", "/logout", "/css/**", "/js/**", "/favicon.ico").permitAll()
+                .requestMatchers("/login",
+                		"/logout",
+                		"/css/**",
+                		"/js/**",
+                		"/vendor/**",
+                		"/img/**",
+                		"/favicon.ico",
+                		"/").permitAll()
                 .anyRequest().authenticated()
             )
 
@@ -59,7 +66,7 @@ public class SecurityConfig {
             .formLogin(form -> form
                 .loginPage("/login")
                 .loginProcessingUrl("/login")
-                .defaultSuccessUrl("/welcome", true)
+                .defaultSuccessUrl("/index", true)
                 .failureUrl("/login?error=true")
                 .permitAll()
             )
@@ -93,5 +100,4 @@ public class SecurityConfig {
 	PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder(); // necessário para comparar a senha criptografada
 	}
-
 }
