@@ -7,7 +7,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.bandampla.condmyapp.enums.Group;
+import com.bandampla.condmyapp.enums.UserGroup;
 import com.bandampla.condmyapp.enums.Status;
 import com.bandampla.condmyapp.model.User;
 
@@ -32,8 +32,8 @@ public class CustomUserDetails implements UserDetails {
         return user.getFirstName() + " " + user.getLastName();
     }
 
-    public Group getGroup() {
-        return user.getGroup();
+    public UserGroup getGroup() {
+        return user.getUserGroup();
     }
 
     public Status getStatus() {
@@ -42,7 +42,7 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singletonList(new SimpleGrantedAuthority(user.getGroup().name()));
+        return Collections.singletonList(new SimpleGrantedAuthority(user.getUserGroup().name()));
     }
 
     @Override

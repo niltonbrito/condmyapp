@@ -41,7 +41,10 @@ public abstract class Person {
 
     @Column(name = "str_phone", length = 20)
     private String phone;
-
+    
+    @Column(length = 500)
+    private String description;
+    
 	public Long getId() {
 		return id;
 	}
@@ -104,6 +107,14 @@ public abstract class Person {
 
 	public void setPhone(String phone) {
 		this.phone = phone;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	@Override

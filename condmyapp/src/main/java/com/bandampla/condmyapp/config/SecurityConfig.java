@@ -35,9 +35,15 @@ public class SecurityConfig {
 
             // Cabeçalhos de segurança
             .headers(headers -> headers
-                .frameOptions().sameOrigin()
-                .contentSecurityPolicy(csp -> csp.policyDirectives("default-src 'self'"))
-            )
+            	    .frameOptions().sameOrigin()
+            	    .contentSecurityPolicy(csp -> csp.policyDirectives(
+            	            "default-src 'self'; " +
+            	                    "style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdn.datatables.net https://fonts.googleapis.com http://www.thymeleaf.org; " +
+            	                    "font-src 'self' https://fonts.gstatic.com/; " +
+            	                    "script-src 'self' 'unsafe-inline' https://code.jquery.com https://cdn.datatables.net https://cdn.jsdelivr.net; " +
+            	                    "img-src 'self' data:;"
+            	    ))
+            	)
 
             // Controle de sessão
             .sessionManagement(session -> session

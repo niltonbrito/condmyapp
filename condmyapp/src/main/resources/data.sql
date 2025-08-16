@@ -14,7 +14,7 @@ VALUES
 (6, 'Julia', 'Costa', '66666666666', 32, 'F', '619999999', '1991-08-22');
 
 -- Usuários
-INSERT INTO users (id, username, email, password, enum_group, enum_status, created_at, updated_at)
+INSERT INTO users (id, username, email, password, user_group, status, created_at, updated_at)
 VALUES
 (1, 'admin', 'joao@email.com', '$2a$10$W/ZfE6I40ZASwkC1kMir2ORjfcNdo3./N4nH9Eeun1r4dZIka0mUq', 'ADMINISTRADOR','ATIVO',  NOW(), NOW()),
 (2, 'maria_user', 'maria@email.com', '$2a$10$W/ZfE6I40ZASwkC1kMir2ORjfcNdo3./N4nH9Eeun1r4dZIka0mUq', 'TERCEIRIZADA','BLOQUEADO',  NOW(), NOW()),

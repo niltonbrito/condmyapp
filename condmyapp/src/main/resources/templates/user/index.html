@@ -4,7 +4,7 @@
 <div class="container-fluid">
 
 	<!-- Page Heading -->
-	<h1 class="h3 mb-2 text-gray-800">Adminitradores</h1>
+	<h1 class="h3 mb-2 text-gray-800">Administradores</h1>
 	<p class="mb-4">
 		Lista de administradores do sistema <a target="_blank" href="#">official
 			DataTables documentation</a>.
@@ -14,7 +14,7 @@
 		<div class="card-header d-flex py-3">
 			<div class="col-4">
 				<a type="button"
-					sec:authorize="hasAnyAuthority('ADMIN','GERENTE')"
+					sec:authorize="hasAnyAuthority('ADMINISTRADOR','GERENTE')"
 					href="user/new" class="btn btn-primary"
 					style="margin-bottom: 20px;">Cadastrar Novo</a>
 				<h6 class="m-0 font-weight-bold text-primary">Lista de Usuários</h6>
@@ -59,7 +59,7 @@
 							<td th:text="${user.email}" class="text-center"></td>
 							<td th:text="${user.username}" class="text-center"></td>
 							<td th:text="${user.status}" class="text-center"></td>
-							<td th:text="${user.group}" class="text-center"></td>
+							<td th:text="${user.userGroup}" class="text-center"></td>
 							<td th:text="${#temporals.format(user.createdAt, 'dd/MM/yyyy HH:mm:ss')}" class="text-center"></td>
 							<td class="text-center">
 								<div class="btn-group" role="group">
@@ -81,8 +81,7 @@
 										data-bs-title="Deletar"
 										sec:authorize="hasAnyAuthority('ADMINISTRADOR')"
 										th:onclick="'if(confirm(\'Confirma a exclusão do usuário?\')) {window.location.href = \'' + @{/user/{id}/delete(id=${user.id})} + '\'}'"
-										href="#"> <img src="/img/icon_delete.png" width="20"
-										height="20" viewBox="0 0 20 20">
+										href="#"><img src="/img/icon_delete.png" width="20" height="20" viewBox="0 0 20 20">
 									</a>
 									<!-- Botão Desbloquear (apenas ADMINISTRADOR e se bloqueadoTentativas == true) -->
 									<a type="button"
@@ -95,7 +94,7 @@
 									   th:if="${user.status.name() == 'BLOQUEADO'}"
 									   th:onclick="'if(confirm(\'Usuário desbloqueado com sucesso!\')) {window.location.href = \'' + @{/user/{id}/desbloquear(id=${user.id})} + '\'}'"
 									   href="#">
-									   <img src="/img/lock_icon.png" width="20" height="20" viewBox="0 0 20 20">
+									   <img th:src="@{/img/icon_locked.png}" alt="Ícone de bloqueio" width="20" height="20" viewBox="0 0 20 20">
 									</a>
 
 

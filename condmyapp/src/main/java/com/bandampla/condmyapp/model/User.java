@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import com.bandampla.condmyapp.enums.Group;
+import com.bandampla.condmyapp.enums.UserGroup;
 import com.bandampla.condmyapp.enums.Status;
 
 import jakarta.persistence.Column;
@@ -28,11 +28,11 @@ public class User extends Person {
 	private String password;
 
 	@Enumerated(EnumType.STRING)
-	@Column(name = "enum_group", nullable = false)
-	private Group group;
+	@Column(name = "user_group", nullable = false)
+	private UserGroup userGroup;
 
 	@Enumerated(EnumType.STRING)
-	@Column(name = "enum_status", nullable = false)
+	@Column(nullable = false)
     private Status status;
 
 	@CreationTimestamp
@@ -59,11 +59,11 @@ public class User extends Person {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public Group getGroup() {
-		return group;
+	public UserGroup getUserGroup() {
+		return userGroup;
 	}
-	public void setGroup(Group group) {
-		this.group = group;
+	public void setUserGroup(UserGroup userGroup) {
+		this.userGroup = userGroup;
 	}
 	public Status getStatus() {
 		return status;
