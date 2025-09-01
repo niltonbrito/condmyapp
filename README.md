@@ -1,4 +1,4 @@
-## Sistema Academia de Karatê
+## Sistema Condy My App
 
 Sistema para gerenciamento de condominios cadastro de usuários, utilizando Java Orientado a Objetos e utilização do FrameWork Springboot, MySQL.
 
