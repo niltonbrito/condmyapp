@@ -32,7 +32,7 @@ public class CustomUserDetails implements UserDetails {
         return user.getFirstName() + " " + user.getLastName();
     }
 
-    public UserGroup getGroup() {
+    public UserGroup getUserGroup() {
         return user.getUserGroup();
     }
 
