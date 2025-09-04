@@ -12,13 +12,15 @@ public class UserRequestDTO {
     private String lastName;
     private String cpf;
     private Date birthDate;
+    private int age;
     private Gender gender;
     private String phone;
     private String email;
     private String username;
-    private String password;
     private UserGroup userGroup;
     private Status status;
+    private String password;
+    private String confirmPassword;    // confirmação da senha
     private boolean trocarSenhaProximoLogin;
     private String description;
 	public String getFirstName() {
@@ -44,6 +46,13 @@ public class UserRequestDTO {
 	}
 	public void setBirthDate(Date birthDate) {
 		this.birthDate = birthDate;
+	}
+	
+	public int getAge() {
+		return age;
+	}
+	public void setAge(int age) {
+		this.age = age;
 	}
 	public Gender getGender() {
 		return gender;
@@ -86,6 +95,13 @@ public class UserRequestDTO {
 	}
 	public void setStatus(Status status) {
 		this.status = status;
+	}
+	
+	public String getConfirmPassword() {
+		return confirmPassword;
+	}
+	public void setConfirmPassword(String confirmPassword) {
+		this.confirmPassword = confirmPassword;
 	}
 	public boolean isTrocarSenhaProximoLogin() {
 		return trocarSenhaProximoLogin;
