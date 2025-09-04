@@ -1,12 +1,7 @@
 package com.bandampla.condmyapp.model;
 
-import java.time.LocalDateTime;
-
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
-
-import com.bandampla.condmyapp.enums.UserGroup;
 import com.bandampla.condmyapp.enums.Status;
+import com.bandampla.condmyapp.enums.UserGroup;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -35,52 +30,98 @@ public class User extends Person {
 	@Column(nullable = false)
     private Status status;
 
-	@CreationTimestamp
-	private LocalDateTime createdAt;
+    @Column(name = "tentativas_login", nullable = false)
+    private int tentativasLogin = 0;
 
-	@UpdateTimestamp
-	private LocalDateTime updatedAt;
+    @Column(name = "trocar_senha_proximo_login", nullable = false)
+    private boolean trocarSenhaProximoLogin = false;
+    
+    @Column(name = "remember_token")
+    private String rememberToken;
+    
+    @Column(name = "session_token")
+    private String sessionToken;
 
+    @Column(name = "user_system", nullable = false)
+    private boolean userSystem;
+    
 	public String getUsername() {
-		return username;
+		return username.toLowerCase().trim();
 	}
+
 	public void setUsername(String username) {
-		this.username = username;
+		this.username = username.toLowerCase().trim();
 	}
+
 	public String getEmail() {
-		return email;
+		return email.toLowerCase().trim();
 	}
+
 	public void setEmail(String email) {
-		this.email = email;
+		this.email = email.toLowerCase().trim();
 	}
+
 	public String getPassword() {
-		return password;
+		return password.trim();
 	}
+
 	public void setPassword(String password) {
-		this.password = password;
+		this.password = password.trim();
 	}
+
 	public UserGroup getUserGroup() {
 		return userGroup;
 	}
+
 	public void setUserGroup(UserGroup userGroup) {
 		this.userGroup = userGroup;
 	}
+
 	public Status getStatus() {
 		return status;
 	}
+
 	public void setStatus(Status status) {
 		this.status = status;
 	}
-	public LocalDateTime getCreatedAt() {
-		return createdAt;
+
+	public int getTentativasLogin() {
+		return tentativasLogin;
 	}
-	public void setCreatedAt(LocalDateTime createdAt) {
-		this.createdAt = createdAt;
+
+	public void setTentativasLogin(int tentativasLogin) {
+		this.tentativasLogin = tentativasLogin;
 	}
-	public LocalDateTime getUpdatedAt() {
-		return updatedAt;
+
+	public boolean isTrocarSenhaProximoLogin() {
+		return trocarSenhaProximoLogin;
 	}
-	public void setUpdatedAt(LocalDateTime updatedAt) {
-		this.updatedAt = updatedAt;
+
+	public void setTrocarSenhaProximoLogin(boolean trocarSenhaProximoLogin) {
+		this.trocarSenhaProximoLogin = trocarSenhaProximoLogin;
+	}
+
+	public String getRememberToken() {
+		return rememberToken.trim();
+	}
+
+	public void setRememberToken(String rememberToken) {
+		this.rememberToken = rememberToken.trim();
+	}
+
+	public String getSessionToken() {
+		return sessionToken.trim();
+	}
+
+	public void setSessionToken(String sessionToken) {
+		this.sessionToken = sessionToken.trim();
+	}
+
+	public boolean isUserSystem() {
+		return userSystem;
+	}
+
+	public void setUserSystem(boolean userSystem) {
+		this.userSystem = userSystem;
 	}
 }

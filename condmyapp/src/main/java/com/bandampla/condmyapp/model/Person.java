@@ -1,10 +1,19 @@
 package com.bandampla.condmyapp.model;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Objects;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import com.bandampla.condmyapp.enums.Gender;
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -21,29 +30,40 @@ public abstract class Person {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-    @Column(name = "str_first_name", nullable = false, length = 50)
+    @Column(name = "first_name", nullable = false, length = 50)
     private String firstName;
 
-    @Column(name = "str_last_name", nullable = false, length = 50)
+    @Column(name = "last_name", nullable = false, length = 50)
     private String lastName;
 
-    @Column(name = "str_cpf", nullable = false, unique = true, length = 14)
+    @Column(name = "cpf", nullable = false, unique = true, length = 14)
     private String cpf;
 
     @Column(name = "birth_date")
     private Date birthDate;
     
-    @Column(name = "int_age", nullable = false)
+    @Column(name = "age", nullable = false)
     private int age;
 
-    @Column(name = "str_gender", length = 10)
-    private String gender;
+	@Enumerated(EnumType.STRING)
+	@Column(nullable = false)
+    private Gender gender;
 
-    @Column(name = "str_phone", length = 20)
+    @Column(name = "phone", length = 20)
     private String phone;
     
     @Column(length = 500)
     private String description;
+    
+    @CreationTimestamp
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm:ss")
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private LocalDateTime createdAt;
+
+    @UpdateTimestamp
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm:ss")
+    @Column(name = "updated_at", nullable = false)
+    private LocalDateTime updatedAt;
     
 	public Long getId() {
 		return id;
@@ -58,7 +78,7 @@ public abstract class Person {
 	}
 
 	public void setFirstName(String firstName) {
-		this.firstName = firstName;
+		this.firstName = firstName.trim();
 	}
 
 	public String getLastName() {
@@ -66,7 +86,7 @@ public abstract class Person {
 	}
 
 	public void setLastName(String lastName) {
-		this.lastName = lastName;
+		this.lastName = lastName.trim();
 	}
 
 	public String getCpf() {
@@ -74,7 +94,11 @@ public abstract class Person {
 	}
 
 	public void setCpf(String cpf) {
-		this.cpf = cpf;
+	    if (cpf != null) {
+	        this.cpf = cpf.replaceAll("\\D", "").trim();
+	    } else {
+	        this.cpf = cpf.trim();
+	    }
 	}
 
 	public int getAge() {
@@ -93,11 +117,12 @@ public abstract class Person {
 		this.birthDate = birthDate;
 	}
 
-	public String getGender() {
+
+	public Gender getGender() {
 		return gender;
 	}
 
-	public void setGender(String gender) {
+	public void setGender(Gender gender) {
 		this.gender = gender;
 	}
 
@@ -106,7 +131,11 @@ public abstract class Person {
 	}
 
 	public void setPhone(String phone) {
-		this.phone = phone;
+	    if (phone != null) {
+	        this.phone = phone.replaceAll("\\D", "").trim();
+	    } else {
+	        this.phone = phone.trim();
+	    }
 	}
 
 	public String getDescription() {
@@ -114,7 +143,23 @@ public abstract class Person {
 	}
 
 	public void setDescription(String description) {
-		this.description = description;
+		this.description = description.trim();
+	}
+	
+	public LocalDateTime getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(LocalDateTime createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public LocalDateTime getUpdatedAt() {
+		return updatedAt;
+	}
+
+	public void setUpdatedAt(LocalDateTime updatedAt) {
+		this.updatedAt = updatedAt;
 	}
 
 	@Override
