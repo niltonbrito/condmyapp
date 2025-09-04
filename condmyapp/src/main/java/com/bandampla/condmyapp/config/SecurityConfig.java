@@ -32,19 +32,19 @@ public class SecurityConfig {
             .csrf(csrf -> csrf
                 .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
             )
-
             // Cabeçalhos de segurança
             .headers(headers -> headers
             	    .frameOptions().sameOrigin()
             	    .contentSecurityPolicy(csp -> csp.policyDirectives(
-            	            "default-src 'self'; " +
-            	                    "style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdn.datatables.net https://fonts.googleapis.com http://www.thymeleaf.org; " +
-            	                    "font-src 'self' https://fonts.gstatic.com/; " +
-            	                    "script-src 'self' 'unsafe-inline' https://code.jquery.com https://cdn.datatables.net https://cdn.jsdelivr.net; " +
-            	                    "img-src 'self' data:;"
+            	        "default-src 'self';" +
+            	        "script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://code.jquery.com https://cdn.datatables.net;" +
+            	        "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net https://cdn.datatables.net;" +
+            	        "font-src 'self' https://fonts.gstatic.com https://cdn.jsdelivr.net;" +
+            	        "img-src 'self' data:;" +
+            	        "connect-src 'self';" +
+            	        "frame-src 'none';"
             	    ))
             	)
-
             // Controle de sessão
             .sessionManagement(session -> session
                 .invalidSessionUrl("/login?expired=true")
@@ -54,20 +54,18 @@ public class SecurityConfig {
                 .and()
                 .sessionFixation().migrateSession()
             )
-
             // Permissões
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/login",
                 		"/logout",
                 		"/css/**",
                 		"/js/**",
-                		"/vendor/**",
+                		"/webfonts/**",
                 		"/img/**",
                 		"/favicon.ico",
                 		"/").permitAll()
                 .anyRequest().authenticated()
             )
-
             // Login
             .formLogin(form -> form
                 .loginPage("/login")
@@ -76,7 +74,6 @@ public class SecurityConfig {
                 .failureUrl("/login?error=true")
                 .permitAll()
             )
-
             // Logout com limpeza de cookies
             .logout(logout -> logout
                 .logoutUrl("/logout")
