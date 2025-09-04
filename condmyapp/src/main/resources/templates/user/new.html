@@ -1,0 +1,171 @@
+<div th:replace="~{fragments/header}"></div>
+
+<div class="container">
+	<div class="row">
+		<div class="col-12">
+			<h2 class="h3 mb-2 text-gray-800">Cadastrar Novo Usuário</h2>
+		</div>
+	</div>
+
+	<div class="card shadow mb-4 p-4">
+		<form method="post" th:action="@{/user/create}"
+			onsubmit="return validarSenhas()">
+			<div class="row gy-3">
+				<!-- Nome -->
+				<div class="col-sm-6 mt-3">
+					<label class="mb-0">Nome <span class="text-danger">*</span></label>
+					<input type="text" name="firstName" class="form-control" required>
+
+					<div class="invalid-feedback">Preencha este campo</div>
+				</div>
+				<!-- Sobrenome -->
+				<div class="col-sm-6 mt-3">
+					<label class="mb-0">Sobrenome <span class="text-danger">*</span></label>
+					<input type="text" name="lastName" class="form-control" required>
+				</div>
+				<!-- Gênero -->
+				<div class="col-sm-6 mt-3">
+					<label for="gender" class="form-label mb-0">Gênero<span
+						class="text-danger">*</span></label> <select
+						class="form-select form-select-sm form-control"
+						aria-label="Small select example" name="gender" id="gender"
+						th:field="*{user.gender}" required="required">
+						<option
+							th:each="gender : ${T(com.bandampla.condmyapp.enums.Gender).values()}"
+							th:value="${gender}" th:text="${gender}"></option>
+					</select>
+				</div>
+				<!-- Email -->
+				<div class="col-sm-6 mt-3">
+					<label class="mb-0">Email <span class="text-danger">*</span></label>
+					<input type="email" name="email" class="form-control" required>
+				</div>
+				<div class="col-sm-6 mt-3">
+					<label for="phone" class="form-label">Celular</label> <input
+						type="tel" class="form-control" id="phone" name="phone" 
+						oninput="mascaraPhone(this)"
+						placeholder="(12) 24456-7890">
+				</div>
+				<!-- CPF -->
+				<div class="col-sm-6 mt-3" id="cpf">
+					<label class="mb-0">CPF <span class="text-danger">*</span></label>
+					<input type="text" name="cpf" class="form-control" maxlength="14"
+						oninput="mascaraCpf(this)" placeholder="___.___.___-__" required>
+				</div>
+
+				<!-- CNPJ -->
+				<div class="col-sm-6 mt-3 d-none" id="cnpj">
+					<label class="mb-0">CNPJ <span class="text-danger">*</span></label>
+					<input type="text" name="cnpj" class="form-control">
+				</div>
+
+				<div class="col-sm-6 mt-3">
+					<label class="mb-0">Data de Nascimento</label>
+					<div class="input-group date" id="datepicker">
+						<input type="text" class="form-control" name="birthDate"
+							id="datepicker" placeholder="Data de Nascimento" required /> <span
+							class="input-group-append"> <span
+							class="input-group-text bg-light d-block"> <i
+								class="fa fa-calendar"></i>
+						</span>
+						</span>
+					</div>
+				</div>
+				<!-- Grupo -->
+				<div class="col-sm-6 mt-3">
+					<label for="userGroup validationCustom05" class="form-label mb-0">Grupo<span
+						class="text-danger">*</span></label> <select
+						class="form-select form-select-sm form-control"
+						aria-label="Small select example" name="userGroup" id="userGroup"
+						required>
+						<option
+							th:each="userGroup : ${T(com.bandampla.condmyapp.enums.UserGroup).values()}"
+							th:value="${userGroup}" th:text="${userGroup}"></option>
+					</select>
+					<div class="invalid-feedback">Selecione um grupo válido.</div>
+				</div>
+				<!-- Status -->
+				<div class="col-sm-6 mt-3">
+					<label for="status" class="form-label mb-0">Status<span
+						class="text-danger">*</span></label> <select
+						class="form-select form-select-sm form-control"
+						id="validationCustom04" aria-label="Small select example"
+						name="status" required>
+						<option
+							th:each="status : ${T(com.bandampla.condmyapp.enums.Status).values()}"
+							th:value="${status}" th:text="${status}"></option>
+					</select>
+					<div class="invalid-feedback">Selecione um status válido.</div>
+				</div>
+				<!-- Senha -->
+				<div class="col-sm-12">
+					<!-- Usuário -->
+					<div class="col-sm-6 mt-3">
+						<label class="mb-0">Usuário <span class="text-danger">*</span></label>
+						<input type="text" name="username" class="form-control" required>
+					</div>
+					<div class="col-sm-6 mt-3">
+						<label for="password" class="form-label mb-0">Digite uma
+							senha<span class="text-danger">*</span>
+						</label> <input type="password" class="form-control" name="password"
+							id="password" required>
+						<!-- Regras de senha -->
+						<div class="alert alert-warning px-3 py-2 mt-2 d-none"
+							id="password-alert">
+							<ul class="list-unstyled mb-0 small">
+								<li class="requirements leng"><i
+									class="fas fa-check text-success me-2 d-none"></i> <i
+									class="fas fa-times text-danger me-3"></i> Pelo menos 8
+									caracteres</li>
+								<li class="requirements big-letter"><i
+									class="fas fa-check text-success me-2 d-none"></i> <i
+									class="fas fa-times text-danger me-3"></i>Pelo menos 1 letra
+									maiúscula</li>
+								<li class="requirements num"><i
+									class="fas fa-check text-success me-2 d-none"></i> <i
+									class="fas fa-times text-danger me-3"></i>Pelo menos 1 número</li>
+								<li class="requirements special-char"><i
+									class="fas fa-check text-success me-2 d-none"></i> <i
+									class="fas fa-times text-danger me-3"></i>Pelo menos 1
+									caractere especial</li>
+							</ul>
+						</div>
+						<!-- Confirmar senha -->
+						<div class=" mt-3">
+							<label for="confirmPassword" class="form-label mb-0">Confirmar
+								Senha<span class="text-danger">*</span>
+							</label> <input type="password" class="form-control"
+								name="confirmPassword" id="confirmPassword" required> <small
+								id="confirm-message" class="d-none"></small>
+							<!-- Checkbox -->
+							<div class="form-check d-flex justify-content-left mt-3">
+								<input class="form-check-input me-2" type="checkbox" value=""
+									id="show-password-toggle-checkbox" /> <label
+									class="form-check-label" for="show-password-toggle-checkbox">Mostrar
+									senha</label>
+							</div>
+						<!-- Checkbox trocar senha -->
+							<div class="form-check">
+								<input type="checkbox" name="trocarSenhaProximoLogin"
+									value="true" class="form-check-input"> <label
+									class="form-check-label">Trocar senha no próximo login</label>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- Observação -->
+				<div class="col-12 mt-3">
+					<label class="mb-0">Observação:</label>
+					<textarea name="description" class="form-control"></textarea>
+				</div>
+
+				<!-- Botão -->
+				<div class="p-3">
+					<button type="onsubmit" class="btn btn-primary btn-lg w-100">Cadastrar</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+
+<div th:replace="~{fragments/footer}"></div>

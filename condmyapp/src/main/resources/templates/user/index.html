@@ -15,26 +15,9 @@
 			<div class="col-4">
 				<a type="button"
 					sec:authorize="hasAnyAuthority('ADMINISTRADOR','GERENTE')"
-					href="user/new" class="btn btn-primary"
+					th:href="@{/user/new}" class="btn btn-primary"
 					style="margin-bottom: 20px;">Cadastrar Novo</a>
 				<h6 class="m-0 font-weight-bold text-primary">Lista de Usuários</h6>
-			</div>
-			<div class="col-8 text-right">
-				<!-- Topbar Search -->
-				<form
-					class="d-none border rounded d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-					<div class="input-group">
-						<input type="text" class="form-control bg-light border-0 small"
-							id="searchInput" name="searchInput" placeholder="Pesquisar..."
-							aria-label="Search" aria-describedby="basic-addon2">
-						<div class="input-group-append">
-							<button class="btn btn-primary" type="button">
-								<i class="fas fa-search fa-sm"></i>
-							</button>
-						</div>
-					</div>
-				</form>
-
 			</div>
 		</div>
 		<div class="card-body">
@@ -44,11 +27,15 @@
 						<tr>
 							<th>ID</th>
 							<th>Nome</th>
+							<th>CPF</th>
 							<th>E-mail</th>
+							<th>Celular</th>
 							<th>Username</th>
+							<th>Gênero</th>
 							<th>Status</th>
 							<th>Grupo</th>
 							<th>Data Criação</th>
+							<th>Observação</th>
 							<th>Ações</th>
 						</tr>
 					</thead>
@@ -56,11 +43,15 @@
 						<tr th:each="user : ${users}">
 							<td th:text="${user.id}" class="text-center"></td>
 							<td th:text="${user.firstName + ' ' + user.lastName}"></td>
+							<td th:text="${@maskUtils.maskCpf(user.cpf)}" class="text-center"></td>
 							<td th:text="${user.email}" class="text-center"></td>
+							<td th:text="${@maskUtils.maskPhone(user.phone)}" class="text-center"></td>
 							<td th:text="${user.username}" class="text-center"></td>
+							<td th:text="${user.gender}" class="text-center"></td>
 							<td th:text="${user.status}" class="text-center"></td>
 							<td th:text="${user.userGroup}" class="text-center"></td>
 							<td th:text="${#temporals.format(user.createdAt, 'dd/MM/yyyy HH:mm:ss')}" class="text-center"></td>
+							<td th:text="${#strings.abbreviate(user.description, 100)}"></td>
 							<td class="text-center">
 								<div class="btn-group" role="group">
 									<!-- Botão Alterar (ADMINISTRADOR ou GERENTE) -->
@@ -69,9 +60,7 @@
 										fill="currentColor" data-bs-toggle="tooltip"
 										data-bs-placement="top" data-bs-title="Alterar"
 										sec:authorize="hasAnyAuthority('ADMINISTRADOR','GERENTE')"
-										th:href="@{'/user/' + ${user.id}}"> <img
-										src="/img/icon_edit.png" width="20" height="20"
-										viewBox="0 0 20 20">
+										th:href="@{'/user/' + ${user.id}}"> <img src="/img/icon_edit.png" width="20" height="20"  alt="Editar usuário" viewBox="0 0 20 20">
 									</a>
 									<!-- Botão Excluir (apenas ADMINISTRADOR) -->
 									<a type="button"
@@ -80,8 +69,8 @@
 										data-bs-placement="top" data-bs-custom-class="custom-tooltip"
 										data-bs-title="Deletar"
 										sec:authorize="hasAnyAuthority('ADMINISTRADOR')"
-										th:onclick="'if(confirm(\'Confirma a exclusão do usuário?\')) {window.location.href = \'' + @{/user/{id}/delete(id=${user.id})} + '\'}'"
-										href="#"><img src="/img/icon_delete.png" width="20" height="20" viewBox="0 0 20 20">
+										th:onclick="'confirmarExclusao(\'' + @{/user/{id}/delete(id=${user.id})} + '\')'"
+										href="#"><img src="/img/icon_delete.png" width="20" height="20" alt="Deletar usuário" viewBox="0 0 20 20">
 									</a>
 									<!-- Botão Desbloquear (apenas ADMINISTRADOR e se bloqueadoTentativas == true) -->
 									<a type="button"
@@ -93,8 +82,7 @@
 									   sec:authorize="hasAuthority('ADMINISTRADOR')"
 									   th:if="${user.status.name() == 'BLOQUEADO'}"
 									   th:onclick="'if(confirm(\'Usuário desbloqueado com sucesso!\')) {window.location.href = \'' + @{/user/{id}/desbloquear(id=${user.id})} + '\'}'"
-									   href="#">
-									   <img th:src="@{/img/icon_locked.png}" alt="Ícone de bloqueio" width="20" height="20" viewBox="0 0 20 20">
+									   href="#"> <img th:src="@{/img/icon_locked.png}" alt="Ícone de bloqueio" width="20" height="20" alt="Desbloquear usuário" viewBox="0 0 20 20">
 									</a>
 
 

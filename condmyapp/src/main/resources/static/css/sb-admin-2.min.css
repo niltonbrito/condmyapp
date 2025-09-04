@@ -12621,3 +12621,33 @@ body.sidebar-toggled footer.sticky-footer {
 .invalid-feedback {
 	margin-left: calc(2em + 0.25rem + 1.5rem);
 }
+
+i.fa.fa-calendar {
+  padding: 4px;
+}
+.datepicker td,
+th {
+  text-align: center;
+  padding: 8px 12px;
+  font-size: 14px;
+}
+.datepicker {
+  top: 6em !important;
+  border: 1px solid black;
+}
+
+.input-group-addon {
+  padding: 6px 12px;
+  font-size: 15px;
+ /* font-weight:400; */
+  line-height: 1;
+  color: #ffffff;
+  text-align: center;
+  background-color: #bdc3c7;
+  border: 2px solid #bdc3c7;
+  border-radius: 6px;
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
+  -webkit-transition: border 0.25s linear, color 0.25s linear, background-color 0.25s linear;
+          transition: border 0.25s linear, color 0.25s linear, background-color 0.25s linear;
+}

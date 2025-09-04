@@ -1,22 +1,27 @@
-  
-  </div>
 
-            </div>
+</div>
 
-        </div>
+</div>
 
-    </div>
+</div>
 
-    <!-- Bootstrap core JavaScript-->
-    <script src="/vendor/jquery/jquery.min.js"></script>
-    <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+</div>
 
-    <!-- Core plugin JavaScript-->
-    <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
-
-    <!-- Custom scripts for all pages-->
-    <script src="/js/custom.min.js"></script>
-
+<!-- jQuery (necessário para o DataTables funcionar) -->
+<script th:src="@{/js/jquery-3.7.0.min.js}"></script>
+<!-- Carregar a biblioteca do jQuery Mask -->
+<script th:src="@{/js/jquery.mask.min.js}"></script>
+<!-- Bootstrap core JavaScript-->
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<!-- Core plugin JavaScript-->
+<script th:src="@{/js/jquery-easing/jquery.easing.min.js}" defer></script>
+<!-- Bootstrap JS (compatível com o layout, mas não essencial para o DataTables) -->
+<script th:src="@{/js/jquery.dataTables.min.js}" defer></script>
+<script th:src="@{/js/dataTables.bootstrap5.min.js}" defer></script>
+<script th:src="@{/js/bootstrap-datepicker.min.js}" defer></script>
+<script th:src="@{/js/bootstrap-datepicker.pt-BR.min.js}" defer></script>
+<!-- Custom scripts for all pages-->
+<script th:src="@{/js/sb-admin-2.min.js}"></script>
 </body>
 
 </html>
