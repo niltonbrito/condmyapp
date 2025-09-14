@@ -1,0 +1,61 @@
+<div th:fragment="messages">
+<div aria-live="polite" aria-atomic="true" class="d-flex justify-content-center align-items-left">
+    <!-- Toast container fixo no canto superior esquerdo -->
+    <div class="toast-container position-fixed botton-0 end-0 p-3" style="z-index: 1100;">
+        <!-- Toast genérico (será preenchido via script) -->
+        <div id="toastMessage"
+             class="toast text-white border-0"
+             role="alert" aria-live="assertive" aria-atomic="true"
+             style="min-width: 350px; max-width: 500px; word-wrap: break-word;">
+            <div class="toast-header justify-content-between" style="font-size: 1.2rem;">
+                <i id="toastIcon"></i>
+                <strong id="toastTitle" class="me-auto fs-6">Mensagem</strong>
+                <i type="button" class="btn-close bi bi-x me-2"
+                   data-bs-dismiss="toast" aria-label="Close"></i>
+            </div>
+            <div id="toastBody" class="toast-body p-3"
+                 style="font-size: 1rem; white-space: normal; word-break: break-word;"></div>
+        </div>
+    </div>
+    </div>
+
+    <script th:inline="javascript">
+        document.addEventListener("DOMContentLoaded", function () {
+            var message = /*[[${message}]]*/ null;
+            var messageType = /*[[${messageType}]]*/ null;
+
+            if (message && messageType) {
+                const container = document.querySelector('.toast-container');
+
+                // Clona o template
+                const toastElement = document.getElementById('toastMessage').cloneNode(true);
+                toastElement.removeAttribute("id");
+
+                const toastBody = toastElement.querySelector('#toastBody');
+                const toastIcon = toastElement.querySelector('#toastIcon');
+                const toastTitle = toastElement.querySelector('#toastTitle');
+
+                // Preenche os dados
+                toastBody.textContent = message;
+
+                if (messageType === 'success') {
+                    toastElement.classList.add('bg-success');
+                    toastElement.classList.remove('bg-danger');
+                    toastIcon.className = "bi bi-check-circle me-2";
+                    toastTitle.textContent = "Sucesso";
+                } else if (messageType === 'error') {
+                    toastElement.classList.add('bg-danger');
+                    toastElement.classList.remove('bg-success');
+                    toastIcon.className = "bi bi-x-circle me-2";
+                    toastTitle.textContent = "Erro";
+                }
+
+                // Adiciona no container (stack)
+                container.appendChild(toastElement);
+
+                // Mostra o toast
+                new bootstrap.Toast(toastElement, { delay: 5000 }).show();
+            }
+        });
+    </script>
+</div>

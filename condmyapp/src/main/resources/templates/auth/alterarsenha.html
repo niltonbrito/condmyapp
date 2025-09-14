@@ -1,0 +1,87 @@
+<div th:replace="~{fragments/header-login}"></div>
+<div class="card-body p-0">
+	<!-- Nested Row within Card Body -->
+	<div class="row justify-content-center d-flex align-items-center ">
+		<div class="col-lg-6">
+			<img class="mx-auto d-block" th:src="@{/img/banner_logo_2.png}">
+		</div>
+		<div class="col-lg-6">
+			<div class="p-5">
+				<div class="text-center">
+					<h1 class="h4 text-gray-900 mb-4">Bem vindo!</h1>
+				</div>
+				<div class="text-center">
+					<h1 class="h4 text-gray-900 mb-4">Alterar Senha!</h1>
+				</div>
+
+				<form th:action="@{/auth/alterarsenha}" method="post">
+
+
+					<!-- Senha -->
+					<div class="col-12">
+						<div class="form-group">
+							<label for="password" class="form-label">Nova Senha<span
+								class="text-danger">*</span></label> <input type="password"
+								class="form-control form-control-user" name="password"
+								id="password" >
+						</div>
+						<!-- Regras de senha -->
+						<div class="alert alert-warning px-3 py-2 mt-2 d-none"
+							id="password-alert">
+							<ul class="list-unstyled mb-0 small">
+								<li class="requirements leng"><i
+									class="fas fa-check text-success me-2 d-none"></i> <i
+									class="fas fa-times text-danger me-3"></i> Pelo menos 8
+									caracteres</li>
+								<li class="requirements big-letter"><i
+									class="fas fa-check text-success me-2 d-none"></i> <i
+									class="fas fa-times text-danger me-3"></i>Pelo menos 1 letra
+									maiúscula</li>
+								<li class="requirements num"><i
+									class="fas fa-check text-success me-2 d-none"></i> <i
+									class="fas fa-times text-danger me-3"></i>Pelo menos 1 número</li>
+								<li class="requirements special-char"><i
+									class="fas fa-check text-success me-2 d-none"></i> <i
+									class="fas fa-times text-danger me-3"></i>Pelo menos 1
+									caractere especial</li>
+							</ul>
+						</div>
+					</div>
+					<!-- Confirmar senha -->
+					<div class="col-12">
+						<label for="confirmPassword" class="form-label">Confirmar
+							Senha<span class="text-danger">*</span>
+						</label> <input type="password" class="form-control form-control-user"
+							name="confirmPassword" id="confirmPassword" required> <small
+							id="confirm-message" class="d-none"></small>
+						<!-- Checkbox -->
+						<div class="form-check d-flex justify-content-left mb-4">
+							<input class="form-check-input me-2" type="checkbox" value=""
+								id="show-password-toggle-checkbox" /> <label
+								class="form-check-label" for="show-password-toggle-checkbox">Mostrar
+								senha</label>
+						</div>
+					</div>
+					
+					<div th:replace="~{fragments/messages :: messages}"></div>
+
+					<button type="submit" class="btn btn-primary btn-block">Salvar Nova Senha</button>
+					<hr>
+					<a href="/login" class="btn btn-google btn-user btn-block"> <i
+						class="fab fa-google fa-fw"></i> Login com Google
+					</a> <a href="" class="btn btn-facebook btn-user btn-block"> <i
+						class="fab fa-facebook-f fa-fw"></i> Login com Facebook
+					</a>
+				</form>
+				<hr>
+				<div class="text-center">
+					<a class="small" href="forgot-password.html">Resetar Password?</a>
+				</div>
+				<div class="text-center">
+					<a class="small" href="register.html">Create an Account!</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div th:replace="~{fragments/footer-login}"></div>

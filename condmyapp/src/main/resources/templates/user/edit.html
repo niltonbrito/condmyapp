@@ -9,31 +9,40 @@
 	</div>
 
 	<div class="card shadow mb-4 p-4">
+
+		<div th:replace="~{fragments/messages :: messages}"></div>
+		
 		<form method="POST" th:action="@{'/user/' + ${user.id} + '/alter'}">
 			<div class="row g-3">
 
 				<!-- ID -->
-				<div class="col-sm-6">
-					<label>ID</label> <input type="number" th:value="${user.id}"
-						class="form-control" name="id" readonly>
+				<div class="col-sm-6 mt-3">
+					<label class="form-label mb-0">ID</label> <input type="number"
+						th:value="${user.id}" class="form-control" name="id" readonly>
 				</div>
-
 				<!-- Nome -->
-				<div class="col-sm-6">
-					<label>Nome</label> <input type="text" th:value="${user.firstName}"
-						class="form-control" name="firstName" required>
+				<div class="col-sm-6 mt-3">
+					<label class="form-label mb-0">Nome<span
+						class="text-danger">*</span></label> <input type="text"
+						th:value="${user.firstName}" class="form-control" name="firstName"
+						required>
 				</div>
-
 				<!-- Sobrenome -->
-				<div class="col-sm-6">
-					<label>Sobrenome</label> <input type="text"
+				<div class="col-sm-6 mt-3">
+					<label class="form-label mb-0">Sobrenome<span
+						class="text-danger">*</span></label> <input type="text"
 						th:value="${user.lastName}" class="form-control" name="lastName"
 						required>
 				</div>
-
+				<!-- CPF -->
+				<div class="col-sm-6 mt-3">
+					<label class="form-label mb-0">CPF<span class="text-danger">*</span></label>
+					<input type="text" th:value="${user.cpf}"  id="cpf" name="cpf" 
+						class="form-control" maxlength="14" oninput="mascaraCpf(this)">
+				</div>
 				<!-- Gênero -->
-				<div class="col-sm-6">
-					<label for="gender" class="form-label ">Gênero<span
+				<div class="col-sm-6 mt-3">
+					<label for="gender" class="form-label mb-0">Gênero<span
 						class="text-danger">*</span></label> <select
 						class="form-select form-select-sm form-control"
 						aria-label="Small select example" name="gender" id="gender"
@@ -43,34 +52,30 @@
 							th:value="${gender}" th:text="${gender}"></option>
 					</select>
 				</div>
-
-				<!-- CPF -->
-				<div class="col-sm-6" id="cpf">
-					<label>CPF <span class="text-danger">*</span></label> <input
-						type="text" th:value="${@maskUtils.maskCpf(user.cpf)}" name="cpf" class="form-control">
-				</div>
-
-				<!-- CNPJ -->
-				<div class="col-sm-6 d-none" id="cnpj">
-					<label>CNPJ <span class="text-danger">*</span></label> <input
-						type="text" name="cnpj" class="form-control">
-				</div>
-				<!-- Usuário -->
-				<div class="col-sm-6">
-					<label>Usuário</label> <input type="text"
-						th:value="${user.username}" class="form-control" name="username"
-						readonly>
-				</div>
-
 				<!-- Email -->
-				<div class="col-sm-6">
-					<label>Email</label> <input type="email" th:value="${user.email}"
-						class="form-control" name="email" required>
+				<div class="col-sm-6 mt-3">
+					<label class="form-label mb-0">Email<span class="text-danger">*</span></label>
+					<input type="email" th:value="${user.email}" class="form-control" name="email" required>
 				</div>
-
+				<!-- Celular -->
+				<div class="col-sm-6 mt-3">
+					<label class="form-label mb-0">Celular <span class="text-danger">*</span></label>
+					<input type="text" th:value="*{user.phone}" id="phone" name="phone" class="form-control" maxlength="14" onchange="mascaraPhone(this)">
+				</div>
+				<!-- Data de Nascimento -->
+				<div class="col-sm-6 mt-3">
+					<label class="form-label mb-0">Data de Nascimento</label>
+					<div class="input-group date" id="datepicker">
+						<input type="text" th:field="*{user.birthDate}"
+							class="form-control" /> <span class="input-group-append">
+							<span class="input-group-text bg-light d-block"><i
+								class="fa fa-calendar"></i></span>
+						</span>
+					</div>
+				</div>
 				<!-- Grupo -->
-				<div class="col-sm-6">
-					<label for="userGroup" class="form-label ">Grupo<span
+				<div class="col-sm-6 mt-3">
+					<label for="userGroup" class="form-label mb-0">Grupo<span
 						class="text-danger">*</span></label> <select
 						class="form-select form-select-sm form-control"
 						aria-label="Small select example" name="userGroup" id="userGroup"
@@ -80,10 +85,9 @@
 							th:value="${userGroup}" th:text="${userGroup}"></option>
 					</select>
 				</div>
-
 				<!-- Status -->
-				<div class="col-sm-6">
-					<label for="status" class="form-label ">Status<span
+				<div class="col-sm-6 mt-3">
+					<label for="status" class="form-label mb-0">Status<span
 						class="text-danger">*</span></label> <select
 						class="form-select form-select-sm form-control"
 						aria-label="Small select example" name="status" id="status"
@@ -93,13 +97,17 @@
 							th:value="${status}" th:text="${status}"></option>
 					</select>
 				</div>
-				<!-- Senha (em branco por padrão) -->
-				<div class="col-sm-6">
-					<label for="password" class="form-label">Nova Senha<span
-						class="text-danger">*</span></label> <input type="password"
-						class="form-control" name="password" id="password"
+				<!-- Usuário -->
+				<div class="col-sm-6 mt-3">
+					<label class="form-label mb-0">Usuário</label> <input type="text"
+						th:value="${user.username}" class="form-control" name="username"
+						readonly>
+				</div>
+				<!-- Senha -->
+				<div class="col-sm-6 mt-3">
+					<label for="password" class="form-label mb-0">Nova Senha</label> <input
+						type="password" class="form-control" name="password" id="password"
 						placeholder="Digite nova senha">
-					<!-- Regras de senha -->
 					<div class="alert alert-warning px-3 py-2 mt-2 d-none"
 						id="password-alert">
 						<ul class="list-unstyled mb-0 small">
@@ -109,39 +117,42 @@
 								caracteres</li>
 							<li class="requirements big-letter"><i
 								class="fas fa-check text-success me-2 d-none"></i> <i
-								class="fas fa-times text-danger me-3"></i>Pelo menos 1 letra
+								class="fas fa-times text-danger me-3"></i> Pelo menos 1 letra
 								maiúscula</li>
 							<li class="requirements num"><i
 								class="fas fa-check text-success me-2 d-none"></i> <i
-								class="fas fa-times text-danger me-3"></i>Pelo menos 1 número</li>
+								class="fas fa-times text-danger me-3"></i> Pelo menos 1 número</li>
 							<li class="requirements special-char"><i
 								class="fas fa-check text-success me-2 d-none"></i> <i
-								class="fas fa-times text-danger me-3"></i>Pelo menos 1 caractere
-								especial</li>
+								class="fas fa-times text-danger me-3"></i> Pelo menos 1
+								caractere especial</li>
 						</ul>
 					</div>
-				</div>
-				<!-- Confirmar senha -->
-				<div class="col-sm-6">
-					<label for="confirmPassword" class="form-label">Confirmar
-						Nova Senha<span class="text-danger">*</span>
-					</label> <input type="password" class="form-control" name="confirmPassword"
-						id="confirmPassword" placeholder="Confirme a nova senha">
-					<small id="confirm-message" class="d-none"></small>
-				</div>
+					<!-- Confirmar senha -->
+					<div class="mt-3">
 
-				<!-- Checkbox trocar senha -->
-				<div class="col-sm-6">
-					<div class="form-check">
-						<input type="checkbox" class="form-check-input"
-							name="trocarSenhaProximoLogin" value="true"
-							th:checked="${user.trocarSenhaProximoLogin}"> <label
-							class="form-check-label">Trocar senha no próximo login</label>
+						<label for="confirmPassword" class="form-label mb-0">Confirmar
+							Nova Senha </label> <input type="password" class="form-control"
+							name="confirmPassword" id="confirmPassword"
+							placeholder="Confirme a nova senha"> <small
+							id="confirm-message" class="d-none"></small>
+						<div class="form-check d-flex justify-content-left mt-3">
+							<input class="form-check-input me-2" type="checkbox"
+								id="show-password-toggle-checkbox" /> <label
+								class="form-check-label" for="show-password-toggle-checkbox">Mostrar
+								senha</label>
+						</div>
+						<div class="form-check">
+							<input type="checkbox" class="form-check-input"
+								name="trocarSenhaProximoLogin" value="true"
+								th:checked="${user.trocarSenhaProximoLogin}"> <label
+								class="form-check-label">Trocar senha no próximo login</label>
+						</div>
 					</div>
 				</div>
 				<!-- Observação -->
 				<div class="col-12">
-					<label>Observação</label>
+					<label class="form-label mb-0">Observação</label>
 					<textarea name="description" class="form-control"
 						th:text="${user.description}"></textarea>
 				</div>

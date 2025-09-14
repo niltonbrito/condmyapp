@@ -4,7 +4,8 @@ public enum Gender {
 
 	SELECIONE(""),
 	MASCULINO("MASCULINO"),
-	FEMININO("FEMININO");
+	FEMININO("FEMININO"),
+	INDEFINIDO("INDEFINIDO");
 	
 	private final String gender;
 	

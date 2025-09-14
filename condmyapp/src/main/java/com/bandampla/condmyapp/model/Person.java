@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.Objects;
 
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
 import com.bandampla.condmyapp.enums.Gender;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -60,11 +59,10 @@ public abstract class Person {
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
-    @UpdateTimestamp
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm:ss")
-    @Column(name = "updated_at", nullable = false)
+    @Column(name = "updated_at", nullable = true)
     private LocalDateTime updatedAt;
-    
+
 	public Long getId() {
 		return id;
 	}
@@ -78,7 +76,7 @@ public abstract class Person {
 	}
 
 	public void setFirstName(String firstName) {
-		this.firstName = firstName.trim();
+		this.firstName = firstName;
 	}
 
 	public String getLastName() {
@@ -86,7 +84,7 @@ public abstract class Person {
 	}
 
 	public void setLastName(String lastName) {
-		this.lastName = lastName.trim();
+		this.lastName = lastName;
 	}
 
 	public String getCpf() {
@@ -94,19 +92,7 @@ public abstract class Person {
 	}
 
 	public void setCpf(String cpf) {
-	    if (cpf != null) {
-	        this.cpf = cpf.replaceAll("\\D", "").trim();
-	    } else {
-	        this.cpf = cpf.trim();
-	    }
-	}
-
-	public int getAge() {
-		return age;
-	}
-
-	public void setAge(int age) {
-		this.age = age;
+		this.cpf = cpf;
 	}
 
 	public Date getBirthDate() {
@@ -117,6 +103,13 @@ public abstract class Person {
 		this.birthDate = birthDate;
 	}
 
+	public int getAge() {
+		return age;
+	}
+
+	public void setAge(int age) {
+		this.age = age;
+	}
 
 	public Gender getGender() {
 		return gender;
@@ -131,11 +124,7 @@ public abstract class Person {
 	}
 
 	public void setPhone(String phone) {
-	    if (phone != null) {
-	        this.phone = phone.replaceAll("\\D", "").trim();
-	    } else {
-	        this.phone = phone.trim();
-	    }
+		this.phone = phone;
 	}
 
 	public String getDescription() {
@@ -143,9 +132,9 @@ public abstract class Person {
 	}
 
 	public void setDescription(String description) {
-		this.description = description.trim();
+		this.description = description;
 	}
-	
+
 	public LocalDateTime getCreatedAt() {
 		return createdAt;
 	}
@@ -178,5 +167,4 @@ public abstract class Person {
 		Person other = (Person) obj;
 		return Objects.equals(id, other.id);
 	}
-
 }

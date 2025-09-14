@@ -8,14 +8,17 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
 
 @Entity
 @Table(name = "users")
 public class User extends Person {
 
+	
 	@Column(nullable = false, unique = true, length = 50)
 	private String username;
 
+	@Email
 	@Column(nullable = false, unique = true, length = 100)
 	private String email;
 
@@ -46,27 +49,27 @@ public class User extends Person {
     private boolean userSystem;
     
 	public String getUsername() {
-		return username.toLowerCase().trim();
+		return username;
 	}
 
 	public void setUsername(String username) {
-		this.username = username.toLowerCase().trim();
+		this.username = username;
 	}
 
 	public String getEmail() {
-		return email.toLowerCase().trim();
+		return email;
 	}
 
 	public void setEmail(String email) {
-		this.email = email.toLowerCase().trim();
+		this.email = email;
 	}
 
 	public String getPassword() {
-		return password.trim();
+		return password;
 	}
 
 	public void setPassword(String password) {
-		this.password = password.trim();
+		this.password = password;
 	}
 
 	public UserGroup getUserGroup() {
@@ -102,19 +105,19 @@ public class User extends Person {
 	}
 
 	public String getRememberToken() {
-		return rememberToken.trim();
+		return rememberToken;
 	}
 
 	public void setRememberToken(String rememberToken) {
-		this.rememberToken = rememberToken.trim();
+		this.rememberToken = rememberToken;
 	}
 
 	public String getSessionToken() {
-		return sessionToken.trim();
+		return sessionToken;
 	}
 
 	public void setSessionToken(String sessionToken) {
-		this.sessionToken = sessionToken.trim();
+		this.sessionToken = sessionToken;
 	}
 
 	public boolean isUserSystem() {

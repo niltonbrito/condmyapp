@@ -20,9 +20,10 @@ public class UserRequestDTO {
     private UserGroup userGroup;
     private Status status;
     private String password;
-    private String confirmPassword;    // confirmação da senha
+    private String confirmPassword;
     private boolean trocarSenhaProximoLogin;
     private String description;
+    
 	public String getFirstName() {
 		return firstName;
 	}
@@ -39,7 +40,7 @@ public class UserRequestDTO {
 		return cpf;
 	}
 	public void setCpf(String cpf) {
-		this.cpf = cpf;
+	        this.cpf = cpf;
 	}
 	public Date getBirthDate() {
 		return birthDate;
