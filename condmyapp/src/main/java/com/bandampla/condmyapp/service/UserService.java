@@ -24,13 +24,13 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
     private final CustomUserDetailsService customUserDetailsService;
     
-    public UserService(UserRepository userRepository, CustomUserDetailsService customUserDetailsService) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, CustomUserDetailsService customUserDetailsService) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
         this.customUserDetailsService = customUserDetailsService;
     }
     private static final String PASSWORD_REGEX =
@@ -99,10 +99,8 @@ public class UserService {
         userBanco.setStatus(dto.getStatus());
 
         if (dto.getPassword() != null && !dto.getPassword().isBlank()) {
-            if (!dto.getPassword().equals(dto.getConfirmPassword()))
-                throw new RuntimeException("As senhas não coincidem.");
-            if (!senhaForte(dto.getPassword()))
-                throw new RuntimeException("Senha fraca: pelo menos 8 caracteres, 1 maiúscula, 1 número e 1 caractere especial.");
+            if (!dto.getPassword().equals(dto.getConfirmPassword())) throw new RuntimeException("As senhas não coincidem.");
+            if (!senhaForte(dto.getPassword())) throw new RuntimeException("Senha fraca: pelo menos 8 caracteres, 1 maiúscula, 1 número e 1 caractere especial.");
 
             userBanco.setPassword(passwordEncoder.encode(dto.getPassword()));
         }

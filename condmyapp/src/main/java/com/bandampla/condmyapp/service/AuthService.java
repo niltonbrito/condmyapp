@@ -1,11 +1,10 @@
 package com.bandampla.condmyapp.service;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.Locale;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -25,11 +24,11 @@ public class AuthService {
 
 	private final UserRepository userRepository;
 
-	@Autowired
-	private PasswordEncoder passwordEncoder;
+	private final PasswordEncoder passwordEncoder;
 
-	public AuthService(UserRepository userRepository) {
+	public AuthService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
 		this.userRepository = userRepository;
+		this.passwordEncoder = passwordEncoder;
 	}
 
 	private static final String STRONG_REGEX = "^(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&]).{8,}$";
@@ -76,15 +75,6 @@ public class AuthService {
 	private boolean containsUserInfoOrBadPatterns(String password, User user) {
 		String lower = password.toLowerCase(Locale.ROOT);
 
-		if (user.getUsername() != null && !user.getUsername().isBlank()) {
-			if (lower.contains(user.getUsername().toLowerCase())) return true;
-		}
-
-		if (user.getEmail() != null && !user.getEmail().isBlank()) {
-			String local = user.getEmail().split("@")[0];
-			if (local.length() >= 3 && lower.contains(local.toLowerCase())) return true;
-		}
-
 		if (user.getFirstName() != null) {
 			for (String token : user.getFirstName().split("\\s+")) {
 				if (token.length() >= 3 && lower.contains(token.toLowerCase())) return true;
@@ -96,7 +86,7 @@ public class AuthService {
 			}
 		}
 
-		Date bd = user.getBirthDate();
+		LocalDate bd = user.getBirthDate();
 		if (bd != null) {
 			String[] patterns = {"ddMMyyyy", "yyyyMMdd", "ddMMyy", "yyyy", "MMyyyy", "MMyy"};
 			for (String p : patterns) {

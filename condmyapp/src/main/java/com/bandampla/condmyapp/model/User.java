@@ -8,7 +8,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.Email;
 
 @Entity
 @Table(name = "users")
@@ -18,7 +17,6 @@ public class User extends Person {
 	@Column(nullable = false, unique = true, length = 50)
 	private String username;
 
-	@Email
 	@Column(nullable = false, unique = true, length = 100)
 	private String email;
 

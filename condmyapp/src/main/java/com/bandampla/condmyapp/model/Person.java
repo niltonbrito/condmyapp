@@ -1,10 +1,11 @@
 package com.bandampla.condmyapp.model;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.Objects;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.validator.constraints.br.CPF;
 
 import com.bandampla.condmyapp.enums.Gender;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -39,7 +40,7 @@ public abstract class Person {
     private String cpf;
 
     @Column(name = "birth_date")
-    private Date birthDate;
+    private LocalDate birthDate;
     
     @Column(name = "age", nullable = false)
     private int age;
@@ -95,11 +96,11 @@ public abstract class Person {
 		this.cpf = cpf;
 	}
 
-	public Date getBirthDate() {
+	public LocalDate getBirthDate() {
 		return birthDate;
 	}
 
-	public void setBirthDate(Date birthDate) {
+	public void setBirthDate(LocalDate birthDate) {
 		this.birthDate = birthDate;
 	}
 

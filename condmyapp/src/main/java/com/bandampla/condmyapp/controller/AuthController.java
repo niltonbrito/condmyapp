@@ -21,7 +21,7 @@ public class AuthController {
 
     @GetMapping({"/", "/login"})
     public String login() {
-        return "login"; // sem barra inicial para evitar conflito
+        return "login";
     }
 
     @GetMapping("/auth/alterarsenha")

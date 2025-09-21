@@ -1,7 +1,7 @@
 package com.bandampla.condmyapp.dto;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 import com.bandampla.condmyapp.enums.Gender;
 import com.bandampla.condmyapp.enums.Status;
@@ -13,7 +13,7 @@ public class UserResponseDTO {
 	    private String firstName;
 	    private String lastName;
 	    private String cpf;
-	    private Date birthDate;
+	    private LocalDate birthDate;
 	    private int age;
 	    private Gender gender;
 	    private String phone;
@@ -51,10 +51,10 @@ public class UserResponseDTO {
 			this.cpf = cpf;
 		}
 		
-		public Date getBirthDate() {
+		public LocalDate getBirthDate() {
 			return birthDate;
 		}
-		public void setBirthDate(Date birthDate) {
+		public void setBirthDate(LocalDate birthDate) {
 			this.birthDate = birthDate;
 		}
 		public int getAge() {
